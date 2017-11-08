@@ -14,17 +14,15 @@ for rho = rho_vect
     C = (1-rho).*eye(M)+rho.*ones(M,M);     %covariance matrix
     A = chol(C);
     
-    
-    for N = N_vect
-       for i = 1:500
+    for i = 1:100
+        for N = N_vect
           n = randn(M,N);
           W = (A.')*n;    % correlated noise
           C_estim = (1/N)*W*(W.');
           D = abs(C-C_estim).^2;
-          MSE(index) = MSE(index) + sum(D(:))/numel(C);
-       end
-          MSE(index) = MSE(index)/i;
-          index = index + 1;
+          MSE(index) = sum(D(:))/numel(C);
+          index = index+1;
+        end
     end
     
     
